@@ -23,22 +23,23 @@ class AiManager {
     return play;
   }
 
-  void fixAi(List<Map<GameState, int>> previousMoves, bool didWin) {
-    for (var move in previousMoves) {
-      move.forEach((key, value) {
+  void fixAi(Map<GameState, int> previousMoves, bool didWin) {
+   
+      previousMoves.forEach((state, move) {
         // Just matching the current move to the move in ai list.
-        int positionPlayed = value;
-        _stateValues[key]!.forEach((stateKey, stateValue) {
-          if (stateKey == positionPlayed) {
+        int positionPlayed = move;
+
+        
+        _stateValues[state]!.forEach((stateMove, moveWeight) {
+          if (stateMove == positionPlayed) {
             //I dont even know man God Saraswati help you next time you look here.
             if (didWin) {
-              stateValue += 3;
+              moveWeight += 3;
             } else {
-              stateValue -= 1;
+              moveWeight -= 1;
             }
           }
         });
-      });
+  });
     }
   }
-}
