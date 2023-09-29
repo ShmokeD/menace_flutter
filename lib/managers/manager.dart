@@ -1,3 +1,9 @@
+// 1   2   3
+// 4   5   6
+// 7   8   9
+
+const positonList = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+
 class GameManager {
   GameManager.init() {
     _gameState = GameState();
@@ -19,35 +25,35 @@ class GameManager {
   bool isGameFinished() //8 lines to fill to finish the game
   {
     // Rows filling test
-    if (_gameState.state[0] != Player.none &&
-        _gameState.state[1] != Player.none &&
-        _gameState.state[2] != Player.none) {
-      if (_gameState.state[0] == _gameState.state[1] &&
-          _gameState.state[1] == _gameState.state[2]) {
+    if (_gameState.state[1] != Player.none &&
+        _gameState.state[2] != Player.none &&
+        _gameState.state[3] != Player.none) {
+      if (_gameState.state[1] == _gameState.state[2] &&
+          _gameState.state[2] == _gameState.state[3]) {
         //Test if rows are filled by the same person
-        _winner = _gameState.state[0];
+        _winner = _gameState.state[1];
       } else {
         _winner = Player.none;
       }
       return true;
     }
-    if (_gameState.state[3] != Player.none &&
-        _gameState.state[4] != Player.none &&
-        _gameState.state[5] != Player.none) {
-      if (_gameState.state[3] == _gameState.state[4] &&
-          _gameState.state[4] == _gameState.state[5]) {
-        _winner = _gameState.state[3];
+    if (_gameState.state[4] != Player.none &&
+        _gameState.state[5] != Player.none &&
+        _gameState.state[6] != Player.none) {
+      if (_gameState.state[4] == _gameState.state[5] &&
+          _gameState.state[5] == _gameState.state[6]) {
+        _winner = _gameState.state[4];
       } else {
         _winner = Player.none;
       }
       return true;
     }
-    if (_gameState.state[6] != Player.none &&
-        _gameState.state[7] != Player.none &&
-        _gameState.state[8] != Player.none) {
-      if (_gameState.state[6] == _gameState.state[7] &&
-          _gameState.state[7] == _gameState.state[8]) {
-        _winner = _gameState.state[6];
+    if (_gameState.state[7] != Player.none &&
+        _gameState.state[8] != Player.none &&
+        _gameState.state[9] != Player.none) {
+      if (_gameState.state[7] == _gameState.state[8] &&
+          _gameState.state[8] == _gameState.state[9]) {
+        _winner = _gameState.state[7];
       } else {
         _winner = Player.none;
       }
@@ -55,17 +61,6 @@ class GameManager {
     }
 
     // column filled test
-    if (_gameState.state[0] != Player.none &&
-        _gameState.state[3] != Player.none &&
-        _gameState.state[6] != Player.none) {
-      if (_gameState.state[0] == _gameState.state[3] &&
-          _gameState.state[3] == _gameState.state[6]) {
-        _winner = _gameState.state[0];
-      } else {
-        _winner = Player.none;
-      }
-      return true;
-    }
     if (_gameState.state[1] != Player.none &&
         _gameState.state[4] != Player.none &&
         _gameState.state[7] != Player.none) {
@@ -88,24 +83,36 @@ class GameManager {
       }
       return true;
     }
-    //diagonal filling testb
-    if (_gameState.state[0] != Player.none &&
-        _gameState.state[4] != Player.none &&
-        _gameState.state[8] != Player.none) {
-      if (_gameState.state[0] == _gameState.state[4] &&
-          _gameState.state[4] == _gameState.state[8]) {
-        _winner = _gameState.state[0];
+    if (_gameState.state[3] != Player.none &&
+        _gameState.state[6] != Player.none &&
+        _gameState.state[9] != Player.none) {
+      if (_gameState.state[3] == _gameState.state[6] &&
+          _gameState.state[6] == _gameState.state[9]) {
+        _winner = _gameState.state[3];
       } else {
         _winner = Player.none;
       }
       return true;
     }
-    if (_gameState.state[2] != Player.none &&
-        _gameState.state[4] != Player.none &&
+
+    //diagonal filling testb
+    if (_gameState.state[1] != Player.none &&
+        _gameState.state[5] != Player.none &&
+        _gameState.state[9] != Player.none) {
+      if (_gameState.state[1] == _gameState.state[5] &&
+          _gameState.state[5] == _gameState.state[9]) {
+        _winner = _gameState.state[1];
+      } else {
+        _winner = Player.none;
+      }
+      return true;
+    }
+    if (_gameState.state[3] != Player.none &&
+        _gameState.state[5] != Player.none &&
         _gameState.state[7] != Player.none) {
-      if (_gameState.state[2] == _gameState.state[4] &&
-          _gameState.state[4] == _gameState.state[7]) {
-        _winner = _gameState.state[2];
+      if (_gameState.state[3] == _gameState.state[5] &&
+          _gameState.state[5] == _gameState.state[7]) {
+        _winner = _gameState.state[3];
       } else {
         _winner = Player.none;
       }
@@ -125,7 +132,9 @@ class GameState {
   }
 
   GameState() {
-    Map<int, Player> _gameState = {};
+    Map<int, Player> _gameState = {
+      for (int position in positonList) position: Player.none
+    };
   }
 
   late List<Player> _gameState;
