@@ -2,24 +2,33 @@
 // 4   5   6
 // 7   8   9
 
+import './ai_manager.dart';
+
 const positonList = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 class GameManager {
-  GameManager.init() {
+  GameManager(){
     _gameState = GameState();
+    aiManager = AiManager();
   }
 
-  Map<GameState, int> _previousMoves =
+  final Map<GameState, int> _previousMoves =
       {}; //store all our previous moves in a map and pass it to AI manager after game end
-
+  late AiManager aiManager;
   late GameState _gameState;
   Player _winner = Player.none;
 
-  void addMove(int index, Player player) {
-    if (player == Player.human) {
-      _gameState = GameState.fromState(_gameState, index, player);
-    }
-    if (player == Player.menace) {}
+  void addHumanMove(int index) {
+   
+      _gameState = GameState.fromState(_gameState, index, Player.human);
+    
+  }
+
+  void addAiMove(){
+    int movePosition = aiManager.moveAi(_gameState);
+    _previousMoves[_gameState] = movePosition;
+    _gameState = GameState.fromState(_gameState, movePosition, Player.menace);
+
   }
 
   bool isGameFinished() //8 lines to fill to finish the game
@@ -35,6 +44,8 @@ class GameManager {
       } else {
         _winner = Player.none;
       }
+      bool didWin = _winner ==Player.menace;
+      aiManager.fixAi(_previousMoves, didWin);
       return true;
     }
     if (_gameState.state[4] != Player.none &&
@@ -46,6 +57,8 @@ class GameManager {
       } else {
         _winner = Player.none;
       }
+      bool didWin = _winner ==Player.menace;
+      aiManager.fixAi(_previousMoves, didWin);
       return true;
     }
     if (_gameState.state[7] != Player.none &&
@@ -57,6 +70,8 @@ class GameManager {
       } else {
         _winner = Player.none;
       }
+      bool didWin = _winner ==Player.menace;
+      aiManager.fixAi(_previousMoves, didWin);
       return true;
     }
 
@@ -70,6 +85,8 @@ class GameManager {
       } else {
         _winner = Player.none;
       }
+      bool didWin = _winner ==Player.menace;
+      aiManager.fixAi(_previousMoves, didWin);
       return true;
     }
     if (_gameState.state[2] != Player.none &&
@@ -81,6 +98,8 @@ class GameManager {
       } else {
         _winner = Player.none;
       }
+      bool didWin = _winner ==Player.menace;
+      aiManager.fixAi(_previousMoves, didWin);
       return true;
     }
     if (_gameState.state[3] != Player.none &&
@@ -92,6 +111,8 @@ class GameManager {
       } else {
         _winner = Player.none;
       }
+      bool didWin = _winner ==Player.menace;
+      aiManager.fixAi(_previousMoves, didWin);
       return true;
     }
 
@@ -105,6 +126,8 @@ class GameManager {
       } else {
         _winner = Player.none;
       }
+      bool didWin = _winner ==Player.menace;
+      aiManager.fixAi(_previousMoves, didWin);
       return true;
     }
     if (_gameState.state[3] != Player.none &&
@@ -116,17 +139,19 @@ class GameManager {
       } else {
         _winner = Player.none;
       }
+      bool didWin = _winner ==Player.menace;
+      aiManager.fixAi(_previousMoves, didWin);
       return true;
     }
 
     return false;
   }
-
+  GameState get gameState => _gameState;
   Player get gameWinner => _winner;
 }
 
 class GameState {
-  GameState.fromState(GameState state, int index, Player player) {
+  GameState.fromState(GameState state, int index, Player player) { //Leaving it as is to be able to create scenarios from the middle;
     _gameState = [...state.state];
     _gameState[index] = player;
   }
