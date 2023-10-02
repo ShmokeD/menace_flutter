@@ -22,25 +22,16 @@ class GameManager {
   Player _winner = Player.none;
 
   void addHumanMove(int index) {
-    if (isGameFinished()) {
-      print("gameFinished");
-      print(_winner);
-      return;
-    }
     gameState = GameState.fromState(gameState, index, Player.human);
     nextPlayer = Player.menace;
     addAiMove();
   }
 
   void addAiMove() {
-    if (isGameFinished()) {
-      print("gameFinished");
-      print(_winner);
-      return;
-    }
     int movePosition = aiManager.moveAi(gameState);
     if (movePosition == 0) {
       print("Reached End");
+      print(findWinner());
       return;
     }
     _previousMoves[gameState] = movePosition;
@@ -49,122 +40,56 @@ class GameManager {
     print(gameState.gameState);
   }
 
-  bool isGameFinished() //8 lines to fill to finish the game
+  Player findWinner() //8 lines to fill to finish the game
   {
     //Not working ; Temporary bypass
-    return false;
     // Rows filling test
-    if (gameState.gameState[1] != Player.none &&
-        gameState.gameState[2] != Player.none &&
-        gameState.gameState[3] != Player.none) {
-      if (gameState.gameState[1] == gameState.gameState[2] &&
-          gameState.gameState[2] == gameState.gameState[3]) {
-        //Test if rows are filled by the same person
-        _winner = gameState.gameState[1]!;
-      } else {
-        _winner = Player.none;
-      }
-      bool didWin = _winner == Player.menace;
-      aiManager.fixAi(_previousMoves, didWin);
-      return true;
+    _winner = Player.none;
+    if (gameState.gameState[1] == gameState.gameState[2] &&
+        gameState.gameState[2] == gameState.gameState[3]) {
+      //Test if rows are filled by the same person
+      _winner = gameState.gameState[1]!;
     }
-    if (gameState.gameState[4] != Player.none &&
-        gameState.gameState[5] != Player.none &&
-        gameState.gameState[6] != Player.none) {
-      if (gameState.gameState[4] == gameState.gameState[5] &&
-          gameState.gameState[5] == gameState.gameState[6]) {
-        _winner = gameState.gameState[4]!;
-      } else {
-        _winner = Player.none;
-      }
-      bool didWin = _winner == Player.menace;
-      aiManager.fixAi(_previousMoves, didWin);
-      return true;
+
+    if (gameState.gameState[4] == gameState.gameState[5] &&
+        gameState.gameState[5] == gameState.gameState[6]) {
+      _winner = gameState.gameState[4]!;
     }
-    if (gameState.gameState[7] != Player.none &&
-        gameState.gameState[8] != Player.none &&
-        gameState.gameState[9] != Player.none) {
-      if (gameState.gameState[7] == gameState.gameState[8] &&
-          gameState.gameState[8] == gameState.gameState[9]) {
-        _winner = gameState.gameState[7]!;
-      } else {
-        _winner = Player.none;
-      }
-      bool didWin = _winner == Player.menace;
-      aiManager.fixAi(_previousMoves, didWin);
-      return true;
+
+    if (gameState.gameState[7] == gameState.gameState[8] &&
+        gameState.gameState[8] == gameState.gameState[9]) {
+      _winner = gameState.gameState[7]!;
     }
 
     // column filled test
-    if (gameState.gameState[1] != Player.none &&
-        gameState.gameState[4] != Player.none &&
-        gameState.gameState[7] != Player.none) {
-      if (gameState.gameState[1] == gameState.gameState[4] &&
-          gameState.gameState[4] == gameState.gameState[7]) {
-        _winner = gameState.gameState[1]!;
-      } else {
-        _winner = Player.none;
-      }
-      bool didWin = _winner == Player.menace;
-      aiManager.fixAi(_previousMoves, didWin);
-      return true;
+    if (gameState.gameState[1] == gameState.gameState[4] &&
+        gameState.gameState[4] == gameState.gameState[7]) {
+      _winner = gameState.gameState[1]!;
     }
-    if (gameState.gameState[2] != Player.none &&
-        gameState.gameState[5] != Player.none &&
-        gameState.gameState[8] != Player.none) {
-      if (gameState.gameState[2] == gameState.gameState[5] &&
-          gameState.gameState[5] == gameState.gameState[8]) {
-        _winner = gameState.gameState[2]!;
-      } else {
-        _winner = Player.none;
-      }
-      bool didWin = _winner == Player.menace;
-      aiManager.fixAi(_previousMoves, didWin);
-      return true;
+
+    if (gameState.gameState[2] == gameState.gameState[5] &&
+        gameState.gameState[5] == gameState.gameState[8]) {
+      _winner = gameState.gameState[2]!;
     }
-    if (gameState.gameState[3] != Player.none &&
-        gameState.gameState[6] != Player.none &&
-        gameState.gameState[9] != Player.none) {
-      if (gameState.gameState[3] == gameState.gameState[6] &&
-          gameState.gameState[6] == gameState.gameState[9]) {
-        _winner = gameState.gameState[3]!;
-      } else {
-        _winner = Player.none;
-      }
-      bool didWin = _winner == Player.menace;
-      aiManager.fixAi(_previousMoves, didWin);
-      return true;
+
+    if (gameState.gameState[3] == gameState.gameState[6] &&
+        gameState.gameState[6] == gameState.gameState[9]) {
+      _winner = gameState.gameState[3]!;
     }
 
     //diagonal filling testb
-    if (gameState.gameState[1] != Player.none &&
-        gameState.gameState[5] != Player.none &&
-        gameState.gameState[9] != Player.none) {
-      if (gameState.gameState[1] == gameState.gameState[5] &&
-          gameState.gameState[5] == gameState.gameState[9]) {
-        _winner = gameState.gameState[1]!;
-      } else {
-        _winner = Player.none;
-      }
-      bool didWin = _winner == Player.menace;
-      aiManager.fixAi(_previousMoves, didWin);
-      return true;
-    }
-    if (gameState.gameState[3] != Player.none &&
-        gameState.gameState[5] != Player.none &&
-        gameState.gameState[7] != Player.none) {
-      if (gameState.gameState[3] == gameState.gameState[5] &&
-          gameState.gameState[5] == gameState.gameState[7]) {
-        _winner = gameState.gameState[3]!;
-      } else {
-        _winner = Player.none;
-      }
-      bool didWin = _winner == Player.menace;
-      aiManager.fixAi(_previousMoves, didWin);
-      return true;
+    if (gameState.gameState[1] == gameState.gameState[5] &&
+        gameState.gameState[5] == gameState.gameState[9]) {
+      _winner = gameState.gameState[1]!;
     }
 
-    return false;
+    if (gameState.gameState[3] == gameState.gameState[5] &&
+        gameState.gameState[5] == gameState.gameState[7]) {
+      _winner = gameState.gameState[3]!;
+    }
+    bool didWin = (_winner == Player.menace);
+    aiManager.fixAi(_previousMoves, didWin);
+    return _winner;
   }
 
   Player get gameWinner => _winner;
