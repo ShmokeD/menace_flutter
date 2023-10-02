@@ -6,7 +6,7 @@ class GameWidget extends StatefulWidget {
   GameWidget({super.key, required this.width});
   final double width;
 
-  GameManager manager = GameManager(Player.human);
+  final GameManager manager = GameManager(Player.human);
 
   @override
   State<GameWidget> createState() => _GameWidgetState();
