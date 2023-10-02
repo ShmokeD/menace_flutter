@@ -6,6 +6,7 @@ import './ai_manager.dart';
 
 const positonList = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
+//BUGFIX : CHeck for winner only after game is finished. IsGameFinished to be converted to isEcist for Player.none.
 class GameManager {
   GameManager(Player firstPlayer)
       : nextPlayer = firstPlayer,
@@ -38,6 +39,10 @@ class GameManager {
       return;
     }
     int movePosition = aiManager.moveAi(gameState);
+    if (movePosition == 0) {
+      print("Reached End");
+      return;
+    }
     _previousMoves[gameState] = movePosition;
     gameState = GameState.fromState(gameState, movePosition, Player.menace);
     nextPlayer = Player.human;
@@ -46,6 +51,8 @@ class GameManager {
 
   bool isGameFinished() //8 lines to fill to finish the game
   {
+    //Not working ; Temporary bypass
+    return false;
     // Rows filling test
     if (gameState.gameState[1] != Player.none &&
         gameState.gameState[2] != Player.none &&
@@ -164,8 +171,8 @@ class GameManager {
 }
 
 class GameState {
-  GameState.fromState(GameState State, int index, Player player)
-      : gameState = {...State.gameState} {
+  GameState.fromState(GameState state, int index, Player player)
+      : gameState = {...state.gameState} {
     gameState.update(
         index,
         (value) =>
