@@ -2,11 +2,11 @@
 // 4   5   6
 // 7   8   9
 
+import 'package:flutter/foundation.dart';
+
 import './ai_manager.dart';
 
-const positonList = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-
-//BUGFIX : CHeck for winner only after game is finished. IsGameFinished to be converted to isEcist for Player.none.
+//Game ends only when no more moves are possible or findWInner returns a player other than none
 class GameManager {
   GameManager(Player firstPlayer)
       : nextPlayer = firstPlayer,
@@ -25,13 +25,17 @@ class GameManager {
   void addHumanMove(int index) {
     if (gameState.gameState[index] != Player.none) {
       //Prevents Player from Overwriting previous Own/Menace's moves
-      print("Cannot Overwrite PRevious Moves");
+      if (kDebugMode) {
+        print("Cannot Overwrite PRevious Moves");
+      }
       return;
     }
     gameState = GameState.fromState(gameState, index, Player.human);
     if (findWinner() != Player.none) {
       // If game is ended, fix ai will occour automatically.
-      print("gameEnded");
+      if (kDebugMode) {
+        print("gameEnded");
+      }
       return;
     }
     nextPlayer = Player.menace;
@@ -41,14 +45,22 @@ class GameManager {
   void addAiMove() {
     int movePosition = aiManager.moveAi(gameState);
     if (movePosition == 0) {
-      print("Reached End");
-      print(findWinner());
+      if (kDebugMode) {
+        print("Reached End");
+      }
+      if (findWinner() == Player.none) {
+        if (kDebugMode) {
+          print("Game Tied");
+        }
+      }
       return;
     }
     _previousMoves[gameState] = movePosition;
     gameState = GameState.fromState(gameState, movePosition, Player.menace);
     nextPlayer = Player.human;
-    print(gameState.gameState);
+    if (kDebugMode) {
+      print(gameState.gameState);
+    }
   }
 
   Player findWinner() //8 lines to fill to finish the game
@@ -102,7 +114,9 @@ class GameManager {
       isGameDisabled = true;
       aiManager.fixAi(_previousMoves, didWin);
     }
-    print(_winner);
+    if (kDebugMode) {
+      print('Find Winner Returns $_winner');
+    }
     return _winner;
   }
 
@@ -119,7 +133,10 @@ class GameState {
   }
 
   GameState()
-      : gameState = {for (int position in positonList) position: Player.none} {
+      : gameState = {
+          for (int position = 1; position <= 9; position++)
+            position: Player.none
+        } {
     Map<int, Player>;
   }
 
