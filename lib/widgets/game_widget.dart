@@ -30,14 +30,18 @@ class _GameWidgetState extends State<GameWidget>
 
   @override
   Widget build(BuildContext context) {
+    bool isDisabled = widget.manager.isGameDisabled;
     var state = widget.manager.gameState.gameState;
     return Column(
       children: [
         Row(children: [
-          GestureDetector(
-            onTap: () => setState(() {
-              widget.manager.addHumanMove(1);
-            }),
+          Expanded(
+              child: GestureDetector(
+            onTap: isDisabled
+                ? () {}
+                : () => setState(() {
+                      widget.manager.addHumanMove(1);
+                    }),
             child: Container(
               height: (widget.width / 3) - 10,
               width: (widget.width / 3) - 10,
@@ -50,16 +54,19 @@ class _GameWidgetState extends State<GameWidget>
                   : Icon(Icons.airplanemode_off_outlined,
                       size: (widget.width / 3) - 15),
             ),
-          ),
+          )),
           Container(
             width: 5,
             height: (widget.width / 3) - 10,
             color: Colors.black,
           ),
-          GestureDetector(
-            onTap: () => setState(() {
-              widget.manager.addHumanMove(2);
-            }),
+          Expanded(
+              child: GestureDetector(
+            onTap: isDisabled
+                ? () {} //Dont do anything if game is disabled
+                : () => setState(() {
+                      widget.manager.addHumanMove(2);
+                    }),
             child: Container(
               height: (widget.width / 3) - 10,
               width: (widget.width / 3) - 10,
@@ -72,16 +79,19 @@ class _GameWidgetState extends State<GameWidget>
                   : Icon(Icons.airplanemode_off_outlined,
                       size: (widget.width / 3) - 15),
             ),
-          ),
+          )),
           Container(
             width: 5,
             height: (widget.width / 3) - 10,
             color: Colors.black,
           ),
-          GestureDetector(
-            onTap: () => setState(() {
-              widget.manager.addHumanMove(3);
-            }),
+          Expanded(
+              child: GestureDetector(
+            onTap: isDisabled
+                ? () {}
+                : () => setState(() {
+                      widget.manager.addHumanMove(3);
+                    }),
             child: Container(
               height: (widget.width / 3) - 10,
               width: (widget.width / 3) - 10,
@@ -94,18 +104,26 @@ class _GameWidgetState extends State<GameWidget>
                   : Icon(Icons.airplanemode_off_outlined,
                       size: (widget.width / 3) - 15),
             ),
-          ),
+          )),
           Container(
             width: 5,
             height: (widget.width / 3) - 10,
             color: Colors.black,
           )
         ]),
+        Container(
+          height: 5,
+          color: Colors.black,
+          width: double.infinity,
+        ),
         Row(children: [
-          GestureDetector(
-            onTap: () => setState(() {
-              widget.manager.addHumanMove(4);
-            }),
+          Expanded(
+              child: GestureDetector(
+            onTap: isDisabled
+                ? () {}
+                : () => setState(() {
+                      widget.manager.addHumanMove(4);
+                    }),
             child: Container(
               height: (widget.width / 3) - 10,
               width: (widget.width / 3) - 10,
@@ -118,16 +136,19 @@ class _GameWidgetState extends State<GameWidget>
                   : Icon(Icons.airplanemode_off_outlined,
                       size: (widget.width / 3) - 15),
             ),
-          ),
+          )),
           Container(
             width: 5,
             height: (widget.width / 3) - 10,
             color: Colors.black,
           ),
-          GestureDetector(
-            onTap: () => setState(() {
-              widget.manager.addHumanMove(5);
-            }),
+          Expanded(
+              child: GestureDetector(
+            onTap: isDisabled
+                ? () {}
+                : () => setState(() {
+                      widget.manager.addHumanMove(5);
+                    }),
             child: Container(
               height: (widget.width / 3) - 10,
               width: (widget.width / 3) - 10,
@@ -140,16 +161,19 @@ class _GameWidgetState extends State<GameWidget>
                   : Icon(Icons.airplanemode_off_outlined,
                       size: (widget.width / 3) - 15),
             ),
-          ),
+          )),
           Container(
             width: 5,
             height: (widget.width / 3) - 10,
             color: Colors.black,
           ),
-          GestureDetector(
-            onTap: () => setState(() {
-              widget.manager.addHumanMove(6);
-            }),
+          Expanded(
+              child: GestureDetector(
+            onTap: isDisabled
+                ? () {}
+                : () => setState(() {
+                      widget.manager.addHumanMove(6);
+                    }),
             child: Container(
               height: (widget.width / 3) - 10,
               width: (widget.width / 3) - 10,
@@ -162,18 +186,26 @@ class _GameWidgetState extends State<GameWidget>
                   : Icon(Icons.airplanemode_off_outlined,
                       size: (widget.width / 3) - 15),
             ),
-          ),
+          )),
           Container(
             width: 5,
             height: (widget.width / 3) - 10,
             color: Colors.black,
           )
         ]),
+        Container(
+          height: 5,
+          color: Colors.black,
+          width: double.infinity,
+        ),
         Row(children: [
-          GestureDetector(
-            onTap: () => setState(() {
-              widget.manager.addHumanMove(7);
-            }),
+          Expanded(
+              child: GestureDetector(
+            onTap: isDisabled
+                ? () {}
+                : () => setState(() {
+                      widget.manager.addHumanMove(7);
+                    }),
             child: Container(
               height: (widget.width / 3) - 10,
               width: (widget.width / 3) - 10,
@@ -186,16 +218,19 @@ class _GameWidgetState extends State<GameWidget>
                   : Icon(Icons.airplanemode_off_outlined,
                       size: (widget.width / 3) - 15),
             ),
-          ),
+          )),
           Container(
             width: 5,
             height: (widget.width / 3) - 10,
             color: Colors.black,
           ),
-          GestureDetector(
-            onTap: () => setState(() {
-              widget.manager.addHumanMove(8);
-            }),
+          Expanded(
+              child: GestureDetector(
+            onTap: isDisabled
+                ? () {}
+                : () => setState(() {
+                      widget.manager.addHumanMove(8);
+                    }),
             child: Container(
               height: (widget.width / 3) - 10,
               width: (widget.width / 3) - 10,
@@ -208,16 +243,19 @@ class _GameWidgetState extends State<GameWidget>
                   : Icon(Icons.airplanemode_off_outlined,
                       size: (widget.width / 3) - 15),
             ),
-          ),
+          )),
           Container(
             width: 5,
             height: (widget.width / 3) - 10,
             color: Colors.black,
           ),
-          GestureDetector(
-            onTap: () => setState(() {
-              widget.manager.addHumanMove(9);
-            }),
+          Expanded(
+              child: GestureDetector(
+            onTap: isDisabled
+                ? () {}
+                : () => setState(() {
+                      widget.manager.addHumanMove(9);
+                    }),
             child: Container(
               height: (widget.width / 3) - 10,
               width: (widget.width / 3) - 10,
@@ -230,7 +268,7 @@ class _GameWidgetState extends State<GameWidget>
                   : Icon(Icons.airplanemode_off_outlined,
                       size: (widget.width / 3) - 15),
             ),
-          ),
+          )),
           Container(
               width: 5, height: (widget.width / 3) - 10, color: Colors.black)
         ]),

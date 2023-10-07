@@ -20,6 +20,7 @@ class GameManager {
   AiManager aiManager;
   GameState gameState;
   Player _winner = Player.none;
+  bool isGameDisabled = false; //Disabled if game ended or paused(?)
 
   void addHumanMove(int index) {
     gameState = GameState.fromState(gameState, index, Player.human);
@@ -47,6 +48,7 @@ class GameManager {
 
   Player findWinner() //8 lines to fill to finish the game
   {
+    
     // Rows filling test
     _winner = Player.none;
     if (gameState.gameState[1] == gameState.gameState[2] &&
@@ -93,6 +95,7 @@ class GameManager {
     }
     bool didWin = (_winner == Player.menace);
     if (_winner != Player.none) {
+      isGameDisabled = true;
       aiManager.fixAi(_previousMoves, didWin);
     }
     print(_winner);
