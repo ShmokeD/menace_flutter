@@ -23,6 +23,11 @@ class GameManager {
 
   void addHumanMove(int index) {
     gameState = GameState.fromState(gameState, index, Player.human);
+    if (findWinner() != Player.none) {
+      // If game is ended, fix ai will occour automatically.
+      print("gameEnded");
+      return;
+    }
     nextPlayer = Player.menace;
     addAiMove();
   }
@@ -42,7 +47,6 @@ class GameManager {
 
   Player findWinner() //8 lines to fill to finish the game
   {
-    //Not working ; Temporary bypass
     // Rows filling test
     _winner = Player.none;
     if (gameState.gameState[1] == gameState.gameState[2] &&
@@ -88,7 +92,10 @@ class GameManager {
       _winner = gameState.gameState[3]!;
     }
     bool didWin = (_winner == Player.menace);
-    aiManager.fixAi(_previousMoves, didWin);
+    if (_winner != Player.none) {
+      aiManager.fixAi(_previousMoves, didWin);
+    }
+    print(_winner);
     return _winner;
   }
 
