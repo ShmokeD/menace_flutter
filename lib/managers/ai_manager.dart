@@ -11,7 +11,7 @@ class AiManager {
   static const positionList = [1, 2, 3, 4, 5, 6, 7, 8, 9];
   AiManager() : _stateValues = {};
 
-  Map<GameState, Map<int, double>> _stateValues;
+ final  Map<GameState, Map<int, double>> _stateValues;
 
   int moveAi(GameState state) {
     Map<int, double> weightMap = {};
