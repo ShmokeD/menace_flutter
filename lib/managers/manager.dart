@@ -23,6 +23,11 @@ class GameManager {
   bool isGameDisabled = false; //Disabled if game ended or paused(?)
 
   void addHumanMove(int index) {
+    if (gameState.gameState[index] != Player.none) {
+      //Prevents Player from Overwriting previous Own/Menace's moves
+      print("Cannot Overwrite PRevious Moves");
+      return;
+    }
     gameState = GameState.fromState(gameState, index, Player.human);
     if (findWinner() != Player.none) {
       // If game is ended, fix ai will occour automatically.
@@ -48,7 +53,6 @@ class GameManager {
 
   Player findWinner() //8 lines to fill to finish the game
   {
-    
     // Rows filling test
     _winner = Player.none;
     if (gameState.gameState[1] == gameState.gameState[2] &&
