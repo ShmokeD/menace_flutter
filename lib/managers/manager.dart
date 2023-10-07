@@ -22,6 +22,13 @@ class GameManager {
   Player _winner = Player.none;
   bool isGameDisabled = false; //Disabled if game ended or paused(?)
 
+  void reset({Player firstPlayer = Player.human}) {
+    gameState = GameState();
+    nextPlayer = firstPlayer;
+    isGameDisabled = false;
+    _winner = Player.none;
+  }
+
   void addHumanMove(int index) {
     if (gameState.gameState[index] != Player.none) {
       //Prevents Player from Overwriting previous Own/Menace's moves

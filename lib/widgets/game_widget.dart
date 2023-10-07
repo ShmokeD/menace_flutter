@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../managers/manager.dart';
@@ -30,10 +31,21 @@ class _GameWidgetState extends State<GameWidget>
 
   @override
   Widget build(BuildContext context) {
-    bool isDisabled = widget.manager.isGameDisabled;
+    var manager = widget.manager;
+    bool isDisabled = manager.isGameDisabled;
     var state = widget.manager.gameState.gameState;
     return Column(
       children: [
+        if (kDebugMode) ...{
+          ElevatedButton(
+            child: const Text("Reset"),
+            onPressed: () {
+              setState(() {
+                manager.reset();
+              });
+            },
+          )
+        },
         Row(children: [
           Expanded(
               child: GestureDetector(
@@ -105,11 +117,6 @@ class _GameWidgetState extends State<GameWidget>
                       size: (widget.width / 3) - 15),
             ),
           )),
-          Container(
-            width: 5,
-            height: (widget.width / 3) - 10,
-            color: Colors.black,
-          )
         ]),
         Container(
           height: 5,
@@ -187,11 +194,6 @@ class _GameWidgetState extends State<GameWidget>
                       size: (widget.width / 3) - 15),
             ),
           )),
-          Container(
-            width: 5,
-            height: (widget.width / 3) - 10,
-            color: Colors.black,
-          )
         ]),
         Container(
           height: 5,
@@ -268,9 +270,7 @@ class _GameWidgetState extends State<GameWidget>
                   : Icon(Icons.airplanemode_off_outlined,
                       size: (widget.width / 3) - 15),
             ),
-          )),
-          Container(
-              width: 5, height: (widget.width / 3) - 10, color: Colors.black)
+          ))
         ]),
       ],
     );
