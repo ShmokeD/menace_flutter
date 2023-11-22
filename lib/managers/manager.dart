@@ -14,7 +14,7 @@ class GameManager {
         aiManager = AiManager();
 
   Player nextPlayer;
-
+  bool gameTied = false;
   final Map<GameState, int> _previousMoves =
       {}; //store all our previous moves in a map and pass it to AI manager after game end
   AiManager aiManager;
@@ -26,6 +26,7 @@ class GameManager {
     gameState = GameState();
     nextPlayer = firstPlayer;
     isGameDisabled = false;
+    gameTied = false;
     _winner = Player.none;
   }
 
@@ -57,6 +58,7 @@ class GameManager {
       }
       if (findWinner() == Player.none) {
         if (kDebugMode) {
+          gameTied = true;
           print("Game Tied");
         }
       }
@@ -64,10 +66,12 @@ class GameManager {
     }
     _previousMoves[gameState] = movePosition;
     gameState = GameState.fromState(gameState, movePosition, Player.menace);
-    nextPlayer = Player.human;
-    if (kDebugMode) {
-      print(gameState.gameState);
+    if (findWinner() == Player.menace) {
+      if (kDebugMode) {
+        print("MENACE WINS");
+      }
     }
+    nextPlayer = Player.human;
   }
 
   Player findWinner() //8 lines to fill to finish the game
@@ -77,7 +81,9 @@ class GameManager {
     if (gameState.gameState[1] == gameState.gameState[2] &&
         gameState.gameState[2] == gameState.gameState[3]) {
       //Test if rows are filled by the same person
-      _winner = gameState.gameState[1]!;
+      if (gameState.gameState[1]! != Player.none) {
+        _winner = gameState.gameState[1]!;
+      }
     }
 
     if (gameState.gameState[4] == gameState.gameState[5] &&
@@ -93,7 +99,9 @@ class GameManager {
     // column filled test
     if (gameState.gameState[1] == gameState.gameState[4] &&
         gameState.gameState[4] == gameState.gameState[7]) {
-      _winner = gameState.gameState[1]!;
+      if (gameState.gameState[1]! != Player.none) {
+        _winner = gameState.gameState[1]!;
+      }
     }
 
     if (gameState.gameState[2] == gameState.gameState[5] &&
@@ -121,9 +129,7 @@ class GameManager {
       isGameDisabled = true;
       aiManager.fixAi(_previousMoves, didWin);
     }
-    if (kDebugMode) {
-      print('Find Winner Returns $_winner');
-    }
+
     return _winner;
   }
 

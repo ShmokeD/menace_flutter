@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import '../managers/manager.dart';
 
 class GameWidget extends StatefulWidget {
-  GameWidget({super.key, required this.width});
+  GameWidget({super.key, required this.width, required this.manager});
   final double width;
 
-  final GameManager manager = GameManager(Player.human);
+  final GameManager manager;
 
   @override
   State<GameWidget> createState() => _GameWidgetState();
