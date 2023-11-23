@@ -28,16 +28,12 @@ class _GameScreenState extends State<GameScreen> {
             ))
       ]),
       body: Column(children: [
-        Container(
-          width: double.infinity,
-          height: 250,
-          color: Colors.black,
-        ),
+        Image.asset('assets/logo.png'),
         GameWidget(width: width, manager: widget.manager),
         Flexible(
           child: Container(
             width: double.infinity,
-            color: Colors.black,
+            color: Colors.white,
           ),
         )
       ]),
