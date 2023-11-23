@@ -48,7 +48,6 @@ class AiManager {
     _matchesPlayed += 1;
     if (didWin) _wins += 1;
     _winRateData[_matchesPlayed] = _wins / _matchesPlayed;
-    print(_winRateData);
     previousMoves.forEach((state, move) {
       // Just matching the current move to the move in ai list.
       int positionPlayed = move;

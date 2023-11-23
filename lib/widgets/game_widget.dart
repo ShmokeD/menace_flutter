@@ -63,8 +63,7 @@ class _GameWidgetState extends State<GameWidget>
                       ? Icon(Icons.star, size: (widget.width / 3) - 15)
                       : Icon(Icons.circle_outlined,
                           size: (widget.width / 3) - 15)
-                  : Icon(Icons.airplanemode_off_outlined,
-                      size: (widget.width / 3) - 15),
+                  : const SizedBox(),
             ),
           )),
           Container(
@@ -88,8 +87,7 @@ class _GameWidgetState extends State<GameWidget>
                       ? Icon(Icons.star, size: (widget.width / 3) - 15)
                       : Icon(Icons.circle_outlined,
                           size: (widget.width / 3) - 15)
-                  : Icon(Icons.airplanemode_off_outlined,
-                      size: (widget.width / 3) - 15),
+                  : const SizedBox(),
             ),
           )),
           Container(
@@ -113,8 +111,7 @@ class _GameWidgetState extends State<GameWidget>
                       ? Icon(Icons.star, size: (widget.width / 3) - 15)
                       : Icon(Icons.circle_outlined,
                           size: (widget.width / 3) - 15)
-                  : Icon(Icons.airplanemode_off_outlined,
-                      size: (widget.width / 3) - 15),
+                  : const SizedBox(),
             ),
           )),
         ]),
@@ -140,8 +137,7 @@ class _GameWidgetState extends State<GameWidget>
                       ? Icon(Icons.star, size: (widget.width / 3) - 15)
                       : Icon(Icons.circle_outlined,
                           size: (widget.width / 3) - 15)
-                  : Icon(Icons.airplanemode_off_outlined,
-                      size: (widget.width / 3) - 15),
+                  : const SizedBox(),
             ),
           )),
           Container(
@@ -165,8 +161,7 @@ class _GameWidgetState extends State<GameWidget>
                       ? Icon(Icons.star, size: (widget.width / 3) - 15)
                       : Icon(Icons.circle_outlined,
                           size: (widget.width / 3) - 15)
-                  : Icon(Icons.airplanemode_off_outlined,
-                      size: (widget.width / 3) - 15),
+                  : const SizedBox(),
             ),
           )),
           Container(
@@ -190,8 +185,7 @@ class _GameWidgetState extends State<GameWidget>
                       ? Icon(Icons.star, size: (widget.width / 3) - 15)
                       : Icon(Icons.circle_outlined,
                           size: (widget.width / 3) - 15)
-                  : Icon(Icons.airplanemode_off_outlined,
-                      size: (widget.width / 3) - 15),
+                  : const SizedBox(),
             ),
           )),
         ]),
@@ -217,8 +211,7 @@ class _GameWidgetState extends State<GameWidget>
                       ? Icon(Icons.star, size: (widget.width / 3) - 15)
                       : Icon(Icons.circle_outlined,
                           size: (widget.width / 3) - 15)
-                  : Icon(Icons.airplanemode_off_outlined,
-                      size: (widget.width / 3) - 15),
+                  : const SizedBox(),
             ),
           )),
           Container(
@@ -242,8 +235,7 @@ class _GameWidgetState extends State<GameWidget>
                       ? Icon(Icons.star, size: (widget.width / 3) - 15)
                       : Icon(Icons.circle_outlined,
                           size: (widget.width / 3) - 15)
-                  : Icon(Icons.airplanemode_off_outlined,
-                      size: (widget.width / 3) - 15),
+                  : const SizedBox(),
             ),
           )),
           Container(
@@ -267,11 +259,28 @@ class _GameWidgetState extends State<GameWidget>
                       ? Icon(Icons.star, size: (widget.width / 3) - 15)
                       : Icon(Icons.circle_outlined,
                           size: (widget.width / 3) - 15)
-                  : Icon(Icons.airplanemode_off_outlined,
-                      size: (widget.width / 3) - 15),
+                  : const SizedBox(),
             ),
           ))
         ]),
+        switch (manager.gameWinner) {
+          Player.human => const Text(
+              'YOU WIN!!',
+              style: TextStyle(fontSize: 30, color: Colors.green),
+            ),
+          Player.menace => const Text(
+              'M.E.N.A.C.E WINS!!',
+              style: TextStyle(fontSize: 30, color: Colors.red),
+            ),
+          Player.none => const Text('') //Show Nothing
+        }
+
+        // (manager.gameWinner == Player.human)
+        //     ?
+        //     : const Text(
+        //         'M.E.N.A.C.E WINS!!',
+        //         style: TextStyle(fontSize: 30, color: Colors.red),
+        //       ),
       ],
     );
   }
