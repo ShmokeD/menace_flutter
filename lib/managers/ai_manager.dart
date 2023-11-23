@@ -7,9 +7,15 @@ import './manager.dart';
 // - Accept all Previous _gameMoves and fix the values depending on outcome
 
 class AiManager {
-  AiManager() : _stateValues = {};
+  AiManager()
+      : _stateValues = {},
+        _matchesPlayed = 0,
+        _wins = 0;
 
   final Map<GameState, Map<int, double>> _stateValues;
+  double _matchesPlayed;
+  final Map<double, double> _winRateData = {};
+  double _wins;
 
   int moveAi(GameState state) {
     Map<int, double> weightMap = {};
@@ -37,7 +43,12 @@ class AiManager {
     return play;
   }
 
+  Map<double, double> get winRateData => _winRateData;
   void fixAi(Map<GameState, int> previousMoves, bool didWin) {
+    _matchesPlayed += 1;
+    if (didWin) _wins += 1;
+    _winRateData[_matchesPlayed] = _wins / _matchesPlayed;
+    print(_winRateData);
     previousMoves.forEach((state, move) {
       // Just matching the current move to the move in ai list.
       int positionPlayed = move;

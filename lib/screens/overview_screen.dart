@@ -3,10 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:menace_flutter/managers/ai_manager.dart';
 
 class OverViewScreen extends StatelessWidget {
-  const OverViewScreen({super.key, required this.aiManager});
+  OverViewScreen({super.key, required this.aiManager});
   final AiManager aiManager;
+  final List<FlSpot> spots = [];
   @override
   Widget build(BuildContext context) {
+    aiManager.winRateData.forEach(
+      (key, value) => spots.add(FlSpot(key, value)),
+    );
     return Scaffold(
         appBar: AppBar(
           forceMaterialTransparency: true,
@@ -25,13 +29,9 @@ class OverViewScreen extends StatelessWidget {
               child: LineChart(
                 LineChartData(
                   lineBarsData: [
-                    LineChartBarData(spots: [
-                      FlSpot(10, 10),
-                      FlSpot(20, 20),
-                      FlSpot(30, 30),
-                      FlSpot(30, 40),
-                      FlSpot(80, 50),
-                    ])
+                    LineChartBarData(
+                      spots: spots,
+                    )
                   ],
                   gridData: const FlGridData(
                     verticalInterval: 10,
@@ -39,7 +39,7 @@ class OverViewScreen extends StatelessWidget {
                     show: true,
                   ),
                   maxY: 100,
-                  maxX: 100,
+                  maxX: spots.length.toDouble(),
                   minX: 0,
                   minY: 0,
                 ),
