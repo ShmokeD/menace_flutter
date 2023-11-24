@@ -5,13 +5,15 @@
 import 'package:flutter/foundation.dart';
 
 import './ai_manager.dart';
+import './storage_manager.dart';
 
 //Game ends only when no more moves are possible or findWInner returns a player other than none
 class GameManager {
   GameManager(Player firstPlayer)
       : nextPlayer = firstPlayer,
         gameState = GameState(),
-        aiManager = AiManager();
+        aiManager = AiManager(),
+        storageManager = StorageManager();
 
   Player nextPlayer;
   bool gameTied = false;
@@ -19,6 +21,7 @@ class GameManager {
       {}; //store all our previous moves in a map and pass it to AI manager after game end
   AiManager aiManager;
   GameState gameState;
+  StorageManager storageManager;
   Player _winner = Player.none;
   bool isGameDisabled = false; //Disabled if game ended or paused(?)
 
@@ -49,7 +52,9 @@ class GameManager {
     nextPlayer = Player.menace;
     addAiMove();
   }
-
+  void store(){
+    
+  }
   void addAiMove() {
     int movePosition = aiManager.moveAi(gameState);
     if (movePosition == 0) {
@@ -143,6 +148,16 @@ class GameState {
         index,
         (value) =>
             player); //Leaving it as is to be able to create scenarios from the middle;
+  }
+  @override
+  String toString() {
+    //state will be converted to string for storage
+    String returnState = '';
+    gameState.forEach(
+        (key, value) => returnState += key.toString() + value.index.toString());
+
+    print('String Returned = $returnState');
+    return returnState;
   }
 
   GameState()

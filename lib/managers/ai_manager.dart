@@ -1,4 +1,5 @@
 import 'package:dart_random_choice/dart_random_choice.dart';
+import 'package:menace_flutter/managers/storage_manager.dart';
 
 import './manager.dart';
 
@@ -10,17 +11,20 @@ class AiManager {
   AiManager()
       : _stateValues = {},
         _matchesPlayed = 0,
-        _wins = 0;
+        _wins = 0,
+        _storageManager = StorageManager();
 
   final Map<GameState, Map<int, double>> _stateValues;
   double _matchesPlayed;
   final Map<double, double> _winRateData = {};
   double _wins;
+  final StorageManager _storageManager;
 
   int moveAi(GameState state) {
     Map<int, double> weightMap = {};
     if (!_stateValues.keys.contains(state)) {
       state.gameState.forEach((key, value) {
+        //create new state if it does not exist
         if (value != Player.none) {
           weightMap[key] = 0;
         } else {
@@ -43,11 +47,15 @@ class AiManager {
     return play;
   }
 
+  void store() {
+    _storageManager.storeDisk(_stateValues);
+  }
+
   Map<double, double> get winRateData => _winRateData;
   void fixAi(Map<GameState, int> previousMoves, bool didWin) {
     _matchesPlayed += 1;
     if (didWin) _wins += 1;
-    _winRateData[_matchesPlayed] = _wins / _matchesPlayed;
+    _winRateData[_matchesPlayed] = (_wins / _matchesPlayed) * 100.0;
     previousMoves.forEach((state, move) {
       // Just matching the current move to the move in ai list.
       int positionPlayed = move;

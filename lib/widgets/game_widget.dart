@@ -273,7 +273,18 @@ class _GameWidgetState extends State<GameWidget>
               style: TextStyle(fontSize: 30, color: Colors.red),
             ),
           Player.none => const Text('') //Show Nothing
-        }
+        },
+        if (kDebugMode) ...{
+          ElevatedButton(
+            child: const Text("Store To Disk"),
+            onPressed: () {
+              setState(() {
+                manager.aiManager.store();
+              });
+            },
+          )
+        },
+
 
         // (manager.gameWinner == Player.human)
         //     ?
