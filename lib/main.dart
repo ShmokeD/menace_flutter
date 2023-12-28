@@ -12,6 +12,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData.dark(),
+      darkTheme:
+          Theme.of(context).copyWith(colorScheme: const ColorScheme.dark()),
       home: GameScreen(),
     );
   }

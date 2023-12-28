@@ -5,7 +5,7 @@ import 'package:menace_flutter/managers/ai_manager.dart';
 class OverViewScreen extends StatelessWidget {
   OverViewScreen({super.key, required this.aiManager});
   final AiManager aiManager;
-  final List<FlSpot> spots = [];
+  final List<FlSpot> spots = [FlSpot.zero];
   @override
   Widget build(BuildContext context) {
     aiManager.winRateData.forEach(

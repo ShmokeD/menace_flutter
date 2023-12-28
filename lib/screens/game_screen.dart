@@ -33,7 +33,7 @@ class _GameScreenState extends State<GameScreen> {
         Flexible(
           child: Container(
             width: double.infinity,
-            color: Colors.white,
+            color: Theme.of(context).primaryColor,
           ),
         )
       ]),
