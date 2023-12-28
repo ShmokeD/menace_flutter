@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:dart_random_choice/dart_random_choice.dart';
 import 'package:menace_flutter/managers/storage_manager.dart';
 
@@ -14,14 +16,14 @@ class AiManager {
         _wins = 0,
         _storageManager = StorageManager();
 
-  final Map<GameState, Map<int, double>> _stateValues;
+  final Map<GameState, Map<int, int>> _stateValues;
   double _matchesPlayed;
   final Map<double, double> _winRateData = {};
   double _wins;
   final StorageManager _storageManager;
 
   int moveAi(GameState state) {
-    Map<int, double> weightMap = {};
+    Map<int, int> weightMap = {};
     if (!_stateValues.keys.contains(state)) {
       state.gameState.forEach((key, value) {
         //create new state if it does not exist
@@ -43,7 +45,8 @@ class AiManager {
       return 0;
     }
     var options = _stateValues[state];
-    var play = randomChoice(options!.keys.toList(), options.values.toList());
+    var play = randomChoice(
+        options!.keys.toList(), options.values.map((e) => e.toDouble())); 
     return play;
   }
 
@@ -52,6 +55,7 @@ class AiManager {
   }
 
   Map<double, double> get winRateData => _winRateData;
+
   void fixAi(Map<GameState, int> previousMoves, bool didWin) {
     _matchesPlayed += 1;
     if (didWin) _wins += 1;

@@ -16,16 +16,17 @@ class StorageManager {
         version: 1);
   }
 
-  void storeDisk(Map<GameState, Map<int, double>> stateValues) async {
+  void storeDisk(Map<GameState, Map<int, int>> stateValues) async {
     final db = await database;
     stateValues.forEach((state, values) async {
       var mapToInsert = {
-        'state': state.toString(),
-        'weights': values.toString()
+        'state': state.toUint8List(), // To be converted to Uint8List
+        'weights': values
       };
       print('INSERTING MAP');
       print(mapToInsert);
-      await db.insert('weight_values', mapToInsert,conflictAlgorithm: ConflictAlgorithm.replace);
+      await db.insert('weight_values', mapToInsert,
+          conflictAlgorithm: ConflictAlgorithm.replace);
 
       print('Store Complete');
     });

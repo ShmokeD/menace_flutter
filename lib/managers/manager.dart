@@ -86,6 +86,7 @@ class GameManager {
         gameState.gameState[2] == gameState.gameState[3]) {
       //Test if rows are filled by the same person
       if (gameState.gameState[1]! != Player.none) {
+        //Prevents override if Blank rows is found and passed in
         _winner = gameState.gameState[1]!;
       }
     }
@@ -172,6 +173,13 @@ class GameState {
 
     print('String Returned = $returnState');
     return returnState;
+  }
+
+  Uint8List toUint8List() {
+    var stateList = gameState.values
+        .map((e) => e.index)
+        .toList(); //give a list of indexes instead of enums. ie converts Player.human to 1
+    return Uint8List.fromList(stateList);
   }
 
   GameState()
