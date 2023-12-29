@@ -282,9 +282,24 @@ class _GameWidgetState extends State<GameWidget>
                 manager.aiManager.store();
               });
             },
-          )
+          ),
+          ElevatedButton(
+            child: const Text("Read from Disk"),
+            onPressed: () {
+              setState(() {
+                manager.aiManager.read();
+              });
+            },
+          ),
+          ElevatedButton(
+            child: const Text("Reset Disk"),
+            onPressed: () {
+              setState(() {
+                manager.aiManager.resetDisk();
+              });
+            },
+          ),
         },
-
 
         // (manager.gameWinner == Player.human)
         //     ?

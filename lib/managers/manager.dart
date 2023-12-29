@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 
 import './ai_manager.dart';
 import './storage_manager.dart';
+import 'game_state.dart';
 
 //Game ends only when no more moves are possible or findWInner returns a player other than none
 class GameManager {
@@ -154,43 +155,6 @@ class GameManager {
   }
 
   Player get gameWinner => _winner;
-}
-
-class GameState {
-  GameState.fromState(GameState state, int index, Player player)
-      : gameState = {...state.gameState} {
-    gameState.update(
-        index,
-        (value) =>
-            player); //Leaving it as is to be able to create scenarios from the middle;
-  }
-  @override
-  String toString() {
-    //state will be converted to string for storage
-    String returnState = '';
-    gameState.forEach(
-        (key, value) => returnState += key.toString() + value.index.toString());
-
-    print('String Returned = $returnState');
-    return returnState;
-  }
-
-  Uint8List toUint8List() {
-    var stateList = gameState.values
-        .map((e) => e.index)
-        .toList(); //give a list of indexes instead of enums. ie converts Player.human to 1
-    return Uint8List.fromList(stateList);
-  }
-
-  GameState()
-      : gameState = {
-          for (int position = 1; position <= 9; position++)
-            position: Player.none
-        } {
-    Map<int, Player>;
-  }
-
-  Map<int, Player> gameState;
 }
 
 enum Player { human, menace, none }

@@ -1,9 +1,9 @@
-import 'dart:ffi';
 
 import 'package:dart_random_choice/dart_random_choice.dart';
 import 'package:menace_flutter/managers/storage_manager.dart';
 
 import './manager.dart';
+import 'game_state.dart';
 
 //Mananger Should primarily:
 // -Accept a GameState and return a play position
@@ -46,12 +46,20 @@ class AiManager {
     }
     var options = _stateValues[state];
     var play = randomChoice(
-        options!.keys.toList(), options.values.map((e) => e.toDouble())); 
+        options!.keys.toList(), options.values.map((e) => e.toDouble()));
     return play;
   }
 
   void store() {
     _storageManager.storeDisk(_stateValues);
+  }
+
+  void resetDisk() {
+    _storageManager.resetDisk();
+  }
+
+  void read() {
+    _storageManager.readDisk();
   }
 
   Map<double, double> get winRateData => _winRateData;
