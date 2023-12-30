@@ -1,5 +1,7 @@
+import 'dart:io';
 
 import 'package:dart_random_choice/dart_random_choice.dart';
+import 'package:flutter/foundation.dart';
 import 'package:menace_flutter/managers/storage_manager.dart';
 
 import './manager.dart';
@@ -16,7 +18,7 @@ class AiManager {
         _wins = 0,
         _storageManager = StorageManager();
 
-  final Map<GameState, Map<int, int>> _stateValues;
+  Map<GameState, Map<int, int>> _stateValues = {};
   double _matchesPlayed;
   final Map<double, double> _winRateData = {};
   double _wins;
@@ -50,6 +52,11 @@ class AiManager {
     return play;
   }
 
+  Future<bool> initialize() async {
+    sleep(const Duration(milliseconds: 500));
+    return true;
+  }
+
   void store() {
     _storageManager.storeDisk(_stateValues);
   }
@@ -58,8 +65,16 @@ class AiManager {
     _storageManager.resetDisk();
   }
 
-  void read() {
-    _storageManager.readDisk();
+  Future<bool> read() async {
+    try {
+      _stateValues = await _storageManager.readDisk();
+      return true;
+    } catch (err) {
+      if (kDebugMode) {
+        print("err");
+      }
+      return false;
+    }
   }
 
   Map<double, double> get winRateData => _winRateData;
@@ -83,5 +98,7 @@ class AiManager {
         }
       });
     });
+
+    store();
   }
 }

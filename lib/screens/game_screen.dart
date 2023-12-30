@@ -4,8 +4,8 @@ import 'package:menace_flutter/screens/overview_screen.dart';
 import '../widgets/game_widget.dart';
 
 class GameScreen extends StatefulWidget {
-  GameScreen({super.key});
-  final GameManager manager = GameManager(Player.human);
+  const GameScreen({super.key, required this.manager});
+  final GameManager manager;
 
   @override
   State<GameScreen> createState() => _GameScreenState();

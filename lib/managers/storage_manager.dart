@@ -11,17 +11,29 @@ class StorageManager {
     initializeStorage();
   }
   late final Future<Database> database;
+  bool isReady = false;
 
-  void initializeStorage() async {
-    database = openDatabase(
-        join(await getDatabasesPath(), 'weight_database.db'),
-        onCreate: (db, version) async => await db.execute(
-            'CREATE TABLE weight_values(state TEXT, weights TEXT, PRIMARY KEY(state))'),
-        version: 1);
+  Future<bool> initializeStorage() async {
+    try {
+      database = openDatabase(
+          join(await getDatabasesPath(), 'weight_database.db'),
+          onCreate: (db, version) async => await db.execute(
+              'CREATE TABLE weight_values(state TEXT, weights TEXT, PRIMARY KEY(state))'),
+          version: 1);
+      isReady = true;
+      return true;
+    } catch (err) {
+      if (kDebugMode) {
+        print(err);
+      }
+      return false;
+    }
   }
 
   void storeDisk(Map<GameState, Map<int, int>> stateValues) async {
-    print("Saving $stateValues");
+    if (kDebugMode) {
+      print("Saving $stateValues");
+    }
     final db = await database;
     stateValues.forEach((state, values) async {
       var newMap = values.map((key, value) => MapEntry(key.toString(), value));
@@ -37,7 +49,9 @@ class StorageManager {
   void resetDisk() async {
     final db = await database;
     db.delete('weight_values');
-    print("Table Cleared");
+    if (kDebugMode) {
+      print("Table Cleared");
+    }
   }
 
   Future<Map<GameState, Map<int, int>>> readDisk() async {

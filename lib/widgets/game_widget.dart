@@ -36,16 +36,15 @@ class _GameWidgetState extends State<GameWidget>
     var state = widget.manager.gameState.gameState;
     return Column(
       children: [
-        if (kDebugMode) ...{
-          ElevatedButton(
-            child: const Text("Reset"),
-            onPressed: () {
-              setState(() {
-                manager.reset();
-              });
-            },
-          )
-        },
+        ElevatedButton(
+          child: const Text("Reset"),
+          onPressed: () {
+            setState(() {
+              manager.reset();
+            });
+          },
+        ),
+
         Row(children: [
           Expanded(
               child: GestureDetector(

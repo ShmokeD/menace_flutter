@@ -26,6 +26,10 @@ class GameManager {
   Player _winner = Player.none;
   bool isGameDisabled = false; //Disabled if game ended or paused(?)
 
+  Future<bool> initialize() async {
+    return await aiManager.initialize();
+  }
+
   void reset({Player firstPlayer = Player.human}) {
     gameState = GameState();
     nextPlayer = firstPlayer;
@@ -143,12 +147,16 @@ class GameManager {
       }
     }
     bool didWin = (_winner == Player.menace);
-    print("Winner is $_winner");
+    if (kDebugMode) {
+      print("Winner is $_winner");
+    }
     if (_winner != Player.none) {
       isGameDisabled = true;
       aiManager.fixAi(_previousMoves, didWin);
     } else {
-      print("GameState is ${gameState.gameState} for $_winner");
+      if (kDebugMode) {
+        print("GameState is ${gameState.gameState} for $_winner");
+      }
     }
 
     return _winner;
