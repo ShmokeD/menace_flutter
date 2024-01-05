@@ -13,22 +13,7 @@ class GameWidget extends StatefulWidget {
   State<GameWidget> createState() => _GameWidgetState();
 }
 
-class _GameWidgetState extends State<GameWidget>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(vsync: this);
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
+class _GameWidgetState extends State<GameWidget> {
   @override
   Widget build(BuildContext context) {
     var manager = widget.manager;
@@ -271,7 +256,12 @@ class _GameWidgetState extends State<GameWidget>
               'M.E.N.A.C.E WINS!!',
               style: TextStyle(fontSize: 30, color: Colors.red),
             ),
-          Player.none => const Text('') //Show Nothing
+          Player.none => manager.gameTied
+              ? const Text(
+                  'Game Tied',
+                  style: TextStyle(fontSize: 30, color: Colors.grey),
+                )
+              : const Text(''), //Show Nothing
         },
         if (kDebugMode) ...{
           ElevatedButton(

@@ -147,9 +147,7 @@ class GameManager {
       }
     }
     bool didWin = (_winner == Player.menace);
-    if (kDebugMode) {
-      print("Winner is $_winner");
-    }
+
     if (_winner != Player.none) {
       isGameDisabled = true;
       aiManager.fixAi(_previousMoves, didWin);
