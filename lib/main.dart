@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:menace_flutter/managers/manager.dart';
 import 'screens/game_screen.dart';
@@ -16,22 +18,22 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final GameManager manager = GameManager(Player.human);
+
   @override
   Widget build(BuildContext context) {
+    manager.initialize();
     bool isReady = false;
-    manager.initialize().then((value) => setState(
-          () => isReady = value,
-        ));
+    if (!isReady) {   
+      sleep(const Duration(milliseconds: 500));  // await 500 milliseconds after initialize to ensure that storage is init.
+      setState(() => isReady = true);
+    }
     return MaterialApp(
-      theme: ThemeData.dark(),
-      darkTheme:
-          Theme.of(context).copyWith(colorScheme: const ColorScheme.dark()),
-      home: AnimatedCrossFade(
-          firstChild: Placeholder(),
-          secondChild: GameScreen(manager: manager),
-          crossFadeState:
-              isReady ? CrossFadeState.showFirst : CrossFadeState.showSecond,
-          duration: const Duration(milliseconds: 200)),
+      theme: ThemeData(useMaterial3: true)
+          .copyWith(colorScheme: ColorScheme.dark()),
+      // theme: ThemeData.dark(useMaterial3: true),
+      // darkTheme:
+      //     Theme.of(context).copyWith(colorScheme: const ColorScheme.dark()),
+      home: GameScreen(manager: manager),
     );
   }
 }

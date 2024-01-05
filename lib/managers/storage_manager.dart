@@ -17,8 +17,9 @@ class StorageManager {
     try {
       database = openDatabase(
           join(await getDatabasesPath(), 'weight_database.db'),
-          onCreate: (db, version) async => await db.execute(
-              'CREATE TABLE weight_values(state TEXT, weights TEXT, PRIMARY KEY(state))'),
+          onCreate: (db, version) async => db.transaction((txn) async =>
+              await txn.execute(
+                  'CREATE TABLE weight_values(state TEXT, weights TEXT, PRIMARY KEY(state))')), // package documentation asks to always do txns
           version: 1);
       isReady = true;
       return true;
@@ -41,8 +42,8 @@ class StorageManager {
         'state': state.toUint8List(), // To be converted to Uint8List
         'weights': json.encode(newMap)
       };
-      await db.insert('weight_values', mapToInsert,
-          conflictAlgorithm: ConflictAlgorithm.replace);
+      await db.transaction((txn) => txn.insert('weight_values', mapToInsert,
+          conflictAlgorithm: ConflictAlgorithm.replace));
     });
   }
 
