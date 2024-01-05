@@ -18,11 +18,14 @@ class AiManager {
         _wins = 0,
         _storageManager = StorageManager();
 
-  Map<GameState, Map<int, int>> _stateValues = {};
+  Map<GameState, Map<int, int>> _stateValues = {
+    GameState(): {1: 1, 2: 1, 3: 1, 4: 1, 5: 1, 6: 1, 7: 1, 8: 1, 9: 1}
+  };
   double _matchesPlayed;
   final Map<double, double> _winRateData = {};
   double _wins;
   final StorageManager _storageManager;
+  GameState lastState = GameState();
 
   int moveAi(GameState state) {
     Map<int, int> weightMap = {};
@@ -46,6 +49,7 @@ class AiManager {
       //all weights are 0. thus signaling the end.
       return 0;
     }
+    lastState = state;
     var options = _stateValues[state];
     var play = randomChoice(
         options!.keys.toList(), options.values.map((e) => e.toDouble()));
@@ -77,6 +81,7 @@ class AiManager {
     }
   }
 
+  Map<int, int> get positionValues => _stateValues[lastState]!;
   Map<double, double> get winRateData => _winRateData;
 
   void fixAi(Map<GameState, int> previousMoves, bool didWin) {
@@ -87,16 +92,19 @@ class AiManager {
       // Just matching the current move to the move in ai list.
       int positionPlayed = move;
 
-      _stateValues[state]!.forEach((stateMove, moveWeight) {
+      for (var stateMove in _stateValues[state]!.keys) {
         if (stateMove == positionPlayed) {
+          //forEach does NOT manipulate map data
           //I dont even know man God Saraswati help you next time you look here.
           if (didWin) {
-            moveWeight += 3;
+            _stateValues[state]![stateMove] =
+                _stateValues[state]![stateMove]! + 3;
           } else {
-            moveWeight -= 1;
+            _stateValues[state]![stateMove] =
+                _stateValues[state]![stateMove]! - 1;
           }
         }
-      });
+      }
     });
 
     store();
