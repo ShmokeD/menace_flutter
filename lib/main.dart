@@ -29,7 +29,7 @@ class _MyAppState extends State<MyApp> {
     }
     return MaterialApp(
       theme: ThemeData(useMaterial3: true)
-          .copyWith(colorScheme: ColorScheme.dark()),
+          .copyWith(colorScheme: const ColorScheme.dark()),
       // theme: ThemeData.dark(useMaterial3: true),
       // darkTheme:
       //     Theme.of(context).copyWith(colorScheme: const ColorScheme.dark()),

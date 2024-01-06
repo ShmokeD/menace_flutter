@@ -13,14 +13,13 @@ import 'game_state.dart';
 
 class AiManager {
   AiManager()
-      : _stateValues = {},
+      : _stateValues = {
+          GameState(): {1: 1, 2: 1, 3: 1, 4: 1, 5: 1, 6: 1, 7: 1, 8: 1, 9: 1}
+        },
         _matchesPlayed = 0,
         _wins = 0,
         _storageManager = StorageManager();
-
-  Map<GameState, Map<int, int>> _stateValues = {
-    GameState(): {1: 1, 2: 1, 3: 1, 4: 1, 5: 1, 6: 1, 7: 1, 8: 1, 9: 1}
-  };
+  Map<GameState, Map<int, int>> _stateValues;
   double _matchesPlayed;
   final Map<double, double> _winRateData = {};
   double _wins;
@@ -30,7 +29,6 @@ class AiManager {
   int moveAi(GameState state) {
     Map<int, int> weightMap = {};
     bool isNewState = true;
-    print(_stateValues.keys);
 
     /* Weird method to check if states are equal since dart has some funky 
     equality problems involving enums */
