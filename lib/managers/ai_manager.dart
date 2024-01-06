@@ -29,7 +29,16 @@ class AiManager {
 
   int moveAi(GameState state) {
     Map<int, int> weightMap = {};
-    if (!_stateValues.keys.contains(state)) {
+    bool isNewState = true;
+    print(_stateValues.keys);
+
+    /* Weird method to check if states are equal since dart has some funky 
+    equality problems involving enums */
+    for (var element in _stateValues.keys) {
+      if (element.toString() == state.toString()) isNewState = false;
+    }
+
+    if (isNewState) {
       state.gameState.forEach((key, value) {
         //create new state if it does not exist
         if (value != Player.none) {
@@ -101,7 +110,9 @@ class AiManager {
                 _stateValues[state]![stateMove]! + 3;
           } else {
             _stateValues[state]![stateMove] =
-                _stateValues[state]![stateMove]! - 1;
+                (_stateValues[state]![stateMove]! - 1) > 0
+                    ? (_stateValues[state]![stateMove]! - 1)
+                    : 0; // so that the value only goes to 0 and not -ve
           }
         }
       }
