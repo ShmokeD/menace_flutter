@@ -35,7 +35,10 @@ class AiManager {
     /* Weird method to check if states are equal since dart has some funky 
     equality problems involving enums */
     for (var element in _stateValues.keys) {
-      if (element.toString() == state.toString()) isNewState = false;
+      if (element.toString() == state.toString()) {
+        isNewState = false;
+        weightMap = _stateValues[element]!;
+      }
     }
 
     if (isNewState) {
@@ -59,9 +62,9 @@ class AiManager {
       return 0;
     }
     lastState = state;
-    var options = _stateValues[state];
+    var options = weightMap;
     var play = randomChoice(
-        options!.keys.toList(), options.values.map((e) => e.toDouble()));
+        options.keys.toList(), options.values.map((e) => e.toDouble()));
     return play;
   }
 
@@ -90,7 +93,15 @@ class AiManager {
     }
   }
 
-  Map<int, int> get positionValues => _stateValues[lastState]!;
+  Map<int, int> get positionValues {
+    for (var element in _stateValues.keys) {
+      if (element.toString() == lastState.toString()) {
+        return _stateValues[element]!;
+      }
+    }
+    return {1: 1};
+  }
+
   Map<double, double> get winRateData => _winRateData;
 
   void fixAi(Map<GameState, int> previousMoves, bool didWin) {
@@ -99,19 +110,26 @@ class AiManager {
     _winRateData[_matchesPlayed] = (_wins / _matchesPlayed) * 100.0;
     previousMoves.forEach((state, move) {
       // Just matching the current move to the move in ai list.
+      late GameState internalState;
       int positionPlayed = move;
-
-      for (var stateMove in _stateValues[state]!.keys) {
+      Map<int, int> weightMap = {};
+      for (var element in _stateValues.keys) {
+        if (state.toString() == element.toString()) {
+          weightMap = _stateValues[element]!;
+          internalState = element;
+        }
+      }
+      for (var stateMove in weightMap.keys) {
         if (stateMove == positionPlayed) {
           //forEach does NOT manipulate map data
           //I dont even know man God Saraswati help you next time you look here.
           if (didWin) {
-            _stateValues[state]![stateMove] =
-                _stateValues[state]![stateMove]! + 3;
+            _stateValues[internalState]![stateMove] =
+                _stateValues[internalState]![stateMove]! + 3;
           } else {
-            _stateValues[state]![stateMove] =
-                (_stateValues[state]![stateMove]! - 1) > 0
-                    ? (_stateValues[state]![stateMove]! - 1)
+            _stateValues[internalState]![stateMove] =
+                (_stateValues[internalState]![stateMove]! - 1) > 0
+                    ? (_stateValues[internalState]![stateMove]! - 1)
                     : 0; // so that the value only goes to 0 and not -ve
           }
         }
