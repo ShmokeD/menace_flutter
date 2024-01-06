@@ -20,7 +20,7 @@ class _GameScreenState extends State<GameScreen> {
         IconButton(
             onPressed: () => Navigator.of(context).push(MaterialPageRoute(
                 builder: (_) => OverViewScreen(
-                      aiManager: widget.manager.aiManager,
+                      manager: widget.manager,
                     ))),
             icon: const Icon(
               Icons.auto_graph_outlined,

@@ -44,5 +44,14 @@ class GameState {
             position: Player.none
         };
 
+  bool hasEnded() {
+    var hasEnded = true;
+
+    for (var element in gameState.values) {
+      if (element == Player.none) hasEnded = false;
+    }
+    return hasEnded;
+  }
+
   Map<int, Player> gameState;
 }

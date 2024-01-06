@@ -17,6 +17,7 @@ class GameManager {
         storageManager = StorageManager();
 
   Player nextPlayer;
+  Player firstPlayer = Player.human;
   bool gameTied = false;
   final Map<GameState, int> _previousMoves =
       {}; //store all our previous moves in a map and pass it to AI manager after game end
@@ -30,12 +31,21 @@ class GameManager {
     return await aiManager.initialize();
   }
 
-  void reset({Player firstPlayer = Player.human}) {
+  void setHumanFirstPlayer(bool val) {
+    firstPlayer = val ? Player.human : Player.menace;
+    print("First PLayer $val");
+  }
+
+  void reset() {
     gameState = GameState();
     nextPlayer = firstPlayer;
     isGameDisabled = false;
     gameTied = false;
     _winner = Player.none;
+
+    if (firstPlayer == Player.menace) {
+      addAiMove();
+    }
   }
 
   void addHumanMove(int index) {
@@ -75,12 +85,18 @@ class GameManager {
     }
     _previousMoves[gameState] = movePosition;
     gameState = GameState.fromState(gameState, movePosition, Player.menace);
+    print("Tide ${gameState.hasEnded()}");
     if (findWinner() == Player.menace) {
       if (kDebugMode) {
         print("MENACE WINS");
       }
+    } else {
+      nextPlayer = Player.human;
+      if (gameState.hasEnded()) {
+        print("Game Tide");
+        gameTied = true;
+      }
     }
-    nextPlayer = Player.human;
   }
 
   Player findWinner() //8 lines to fill to finish the game
@@ -163,4 +179,8 @@ class GameManager {
   Player get gameWinner => _winner;
 }
 
-enum Player { human, menace, none }
+enum Player {
+  none,
+  human,
+  menace,
+}
