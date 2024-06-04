@@ -130,6 +130,24 @@ class AiManager {
                     ? (_stateValues[internalState]![stateMove]! - 1)
                     : 0; // so that the value only goes to 0 and not -ve
           }
+
+          if (_stateValues[internalState]!
+              .values
+              .every((element) => element == 0)) {
+            if (kDebugMode) {
+              print("StateValues Empty... Refilling");
+            }
+
+            Map<int, int> newWeightMap = {};
+            internalState.gameState.forEach((key, value) {
+              if (value != Player.none) {
+                newWeightMap[key] = 0;
+              } else {
+                newWeightMap[key] = 1;
+              }
+            });
+            _stateValues[internalState] = newWeightMap;
+          }
         }
       }
     });
